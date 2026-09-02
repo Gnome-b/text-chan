@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Віртуальне середовище
+venv/
+env/
+.venv/
+ENV/
+
+# Бази даних
+*.db
+*.sqlite3
+*.sqlite
+
+# Змінні середовища / секрети
+.env
+.env.local
+
+# Кеш і тимчасові файли
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Логи
+*.log
+
+# IDE / редактори
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
