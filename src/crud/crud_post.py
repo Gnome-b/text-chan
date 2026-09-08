@@ -4,7 +4,7 @@ from schemas.post import PostCreate
 from security import hash_secret_code
 
 
-async def create_post(post_data: PostCreate, db: DbDependency):
+async def create_post(post_data: PostCreate, db: DbDependency) -> PostModel:
     hashed = await hash_secret_code(post_data.secret_code)
     new_post = PostModel(
         author_name=post_data.author_name or "Anonym",
