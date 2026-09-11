@@ -1,18 +1,39 @@
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Path
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud.crud_post import get_post
 from database import DbDependency
 from models.post import PostModel
-from schemas.secret_code import SecretCodeCheck
+from schemas.post import PostUpdateRequest, SecretCodeCheck
 from security import verify_secret_code
 
 
-async def verify_post_owner(
+async def verify_post_owner_for_upbate(
     db: DbDependency,
-    secret_code: SecretCodeCheck,
+    body: PostUpdateRequest,
     post_id: int = Path(ge=0),
+) -> PostModel:
+    return await _verify_post_owner(
+        db=db, secret_code=body.secret_code, post_id=post_id
+    )
+
+
+async def verify_post_owner_for_delete(
+    db: DbDependency,
+    body: SecretCodeCheck,
+    post_id: int = Path(ge=0),
+) -> PostModel:
+    return await _verify_post_owner(
+        db=db, secret_code=body.secret_code, post_id=post_id
+    )
+
+
+async def _verify_post_owner(
+    db: AsyncSession,
+    secret_code: str,
+    post_id: int,
 ) -> PostModel:
     post = await get_post(post_id=post_id, db=db)
     if post is None:
@@ -22,4 +43,5 @@ async def verify_post_owner(
     return post
 
 
-VerifiedPost = Annotated[PostModel, Depends(verify_post_owner)]
+VerifiedPost = Annotated[PostModel, Depends(verify_post_owner_for_upbate)]
+VerifiedPost = Annotated[PostModel, Depends(verify_post_owner_for_delete)]
