@@ -43,5 +43,5 @@ async def _verify_post_owner(
     return post
 
 
-VerifiedPost = Annotated[PostModel, Depends(verify_post_owner_for_upbate)]
-VerifiedPost = Annotated[PostModel, Depends(verify_post_owner_for_delete)]
+VerifiedPostForUpdate = Annotated[PostModel, Depends(verify_post_owner_for_upbate)]
+VerifiedPostForDelete = Annotated[PostModel, Depends(verify_post_owner_for_delete)]
