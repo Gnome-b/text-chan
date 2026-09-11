@@ -26,3 +26,7 @@ class PostUpdate(BaseModel):
 
 class PostUpdateRequest(PostUpdate):
     secret_code: str = Field(min_length=4, max_length=100)
+
+
+class SecretCodeCheck(BaseModel):
+    secret_code: str = Field(min_length=4, max_length=100)
