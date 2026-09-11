@@ -22,3 +22,7 @@ class PostUpdate(BaseModel):
     author_name: str | None = Field(default=None, max_length=50)
     subject: str | None = Field(default=None, max_length=100)
     text: str | None = Field(default=None, min_length=1, max_length=5000)
+
+
+class PostUpdateRequest(PostUpdate):
+    secret_code: str = Field(min_length=4, max_length=100)
