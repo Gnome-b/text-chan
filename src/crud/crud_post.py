@@ -2,7 +2,7 @@ from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.post import PostModel
-from schemas.post import PostCreate
+from schemas.post import PostCreate, PostUpdateRequest
 from security import hash_secret_code
 
 
@@ -34,3 +34,14 @@ async def get_posts(page: int, limit: int, db: AsyncSession) -> list[PostModel]:
         .limit(limit)
     )
     return result.scalar().all()
+
+
+async def update_post(
+    post: PostModel, update_data: PostUpdateRequest, db: AsyncSession
+) -> PostModel:
+    changes = update_data.model_dump(exclude_unset=True, exclude={"secret_code"})
+    for name, value in changes.items:
+        setattr(post, name, value)
+    await db.commit()
+    await db.refresh(post)
+    return post
