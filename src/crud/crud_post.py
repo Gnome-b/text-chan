@@ -45,3 +45,8 @@ async def update_post(
     await db.commit()
     await db.refresh(post)
     return post
+
+
+async def delete_post(post: PostModel, db: AsyncSession) -> None:
+    await db.delete(post)
+    await db.commit()
